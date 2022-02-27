@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.12.5",
+    "click-outside-vue3": "^4.0.1",
     "quasar": "^2.5.5"
   }
 }

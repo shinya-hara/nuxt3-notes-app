@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header elevated class="bg-primary text-white">
+    <q-header elevated class="bg-purple text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -11,8 +11,14 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container>
+    <q-page-container class="container">
       <slot />
     </q-page-container>
   </q-layout>
 </template>
+
+<style lang="scss" scoped>
+.container {
+  padding: 0 30px;
+}
+</style>

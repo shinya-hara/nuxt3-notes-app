@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-bar class="bg-purple-1">
-      <div>{{ note.updatedAt }}</div>
+      <div>{{ note.formattedUpdatedAt }}</div>
       <q-space />
       <q-btn dense flat icon="delete" color="negative">
         <q-tooltip>Delete</q-tooltip>

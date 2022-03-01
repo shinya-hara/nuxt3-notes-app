@@ -16,4 +16,22 @@ export class Note {
   public get updatedAt(): DateTimeString {
     return this._updatedAt
   }
+
+  /**
+   * 更新日時をフォーマットして返す
+   * @returns {string} YYYY-MM-DD HH:mm
+   */
+  public get formattedUpdatedAt(): string {
+    const d = new Date(this.updatedAt)
+    const year = d.getFullYear()
+    const month = zeroPadding(d.getMonth() + 1)
+    const day = zeroPadding(d.getDate())
+    const hour = zeroPadding(d.getHours())
+    const minute = zeroPadding(d.getMinutes())
+    return `${year}-${month}-${day} ${hour}:${minute}`
+  }
+}
+
+function zeroPadding(base: string | number, length = 2) {
+  return String(base).padStart(length, '0')
 }

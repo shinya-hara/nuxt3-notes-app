@@ -9,8 +9,10 @@
     </q-bar>
 
     <q-card-section>
-      <div v-if="preview" @click="toggleMode">{{ note.content }}</div>
-      <div v-else>
+      <div v-if="preview" class="preview" @click="toggleMode">
+        <div v-html="md"></div>
+      </div>
+      <div v-else class="editor">
         <q-input v-model="editContent" v-click-outside="updateContent" filled autogrow />
       </div>
     </q-card-section>
@@ -18,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { marked } from 'marked'
 import { Note } from '@/domains/note'
 
 type Props = {
@@ -32,6 +35,7 @@ const emit = defineEmits<Emits>()
 
 const preview = ref(true)
 const editContent = ref('')
+const md = computed(() => marked.parse(props.note.content))
 
 const toggleMode = () => {
   editContent.value = props.note.content
@@ -43,3 +47,9 @@ const updateContent = () => {
   toggleMode()
 }
 </script>
+
+<style lang="scss" scoped>
+.editor ::v-deep textarea {
+  font-family: Monaco, Courier, monospace;
+}
+</style>

@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <div class="action">
+      <q-btn icon="note_add" color="indigo" @click="addNew">Add new note</q-btn>
+    </div>
+
     <div class="cards">
       <NoteCard
         v-for="note in notes"
@@ -24,6 +28,10 @@ const updateContent = (id: Note['id'], content: Note['content']) => {
   const newNote = new Note(id, content)
   notes.value.splice(targetId, 1, newNote)
 }
+
+const addNew = () => {
+  notes.value.unshift(new Note((notes.value[0]?.id || 0) + 1, ''))
+}
 </script>
 
 <style lang="scss" scoped>
@@ -36,5 +44,10 @@ const updateContent = (id: Note['id'], content: Note['content']) => {
   > *:not(:last-child) {
     margin-bottom: 30px;
   }
+}
+
+.action {
+  text-align: center;
+  margin-bottom: 20px;
 }
 </style>

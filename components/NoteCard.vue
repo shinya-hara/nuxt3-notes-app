@@ -10,10 +10,11 @@
 
     <q-card-section>
       <div v-if="preview" class="preview" @click="toggleMode">
-        <div v-html="md"></div>
+        <div v-if="md" v-html="md"></div>
+        <div v-else class="text-blue-grey text-italic">Click here to edit note.</div>
       </div>
       <div v-else class="editor">
-        <q-input v-model="editContent" v-click-outside="updateContent" filled autogrow />
+        <q-input v-model="editContent" v-click-outside="updateContent" filled autogrow autofocus />
       </div>
     </q-card-section>
   </q-card>

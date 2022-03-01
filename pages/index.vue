@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <NoteCard
-      v-for="note in notes"
-      :key="note.id"
-      :note="note"
-      @update="updateContent(note.id, $event)"
-    />
+  <div class="container">
+    <div class="cards">
+      <NoteCard
+        v-for="note in notes"
+        :key="note.id"
+        :note="note"
+        @update="updateContent(note.id, $event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -23,3 +25,16 @@ const updateContent = (id: Note['id'], content: Note['content']) => {
   notes.value.splice(targetId, 1, newNote)
 }
 </script>
+
+<style lang="scss" scoped>
+.container {
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+.cards {
+  > *:not(:last-child) {
+    margin-bottom: 30px;
+  }
+}
+</style>

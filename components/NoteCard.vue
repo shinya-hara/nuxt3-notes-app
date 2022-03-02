@@ -1,9 +1,11 @@
 <template>
   <q-card>
-    <q-bar class="bg-purple-1">
-      <div>{{ note.formattedUpdatedAt }}</div>
+    <q-bar class="bg-grey-3">
+      <div>
+        <span class="text-caption">{{ note.formattedUpdatedAt }}</span>
+      </div>
       <q-space />
-      <q-btn dense flat icon="delete" color="negative">
+      <q-btn dense flat icon="delete" color="red-5" @click="confirm">
         <q-tooltip>Delete</q-tooltip>
       </q-btn>
     </q-bar>
@@ -14,7 +16,14 @@
         <div v-else class="text-blue-grey text-italic">Click here to edit note.</div>
       </div>
       <div v-else class="editor">
-        <q-input v-model="editContent" v-click-outside="updateContent" filled autogrow autofocus />
+        <q-input
+          v-model="editContent"
+          v-click-outside="updateContent"
+          color="purple"
+          filled
+          autogrow
+          autofocus
+        />
       </div>
     </q-card-section>
   </q-card>
@@ -22,6 +31,7 @@
 
 <script setup lang="ts">
 import { marked } from 'marked'
+import { useQuasar } from 'quasar'
 import { Note } from '@/domains/note'
 
 type Props = {
@@ -29,6 +39,7 @@ type Props = {
 }
 type Emits = {
   (e: 'update', value: string): void
+  (e: 'delete', note: Note): void
 }
 
 const props = defineProps<Props>()
@@ -46,6 +57,25 @@ const toggleMode = () => {
 const updateContent = () => {
   emit('update', editContent.value)
   toggleMode()
+}
+
+const $q = useQuasar()
+const confirm = () => {
+  $q.dialog({
+    title: 'Aer you sure?',
+    message: "You won't to be able to revert this!",
+    ok: 'DELETE',
+    cancel: true,
+    persistent: true,
+    focus: 'cancel',
+    color: 'purple',
+  })
+    .onOk(() => {
+      emit('delete', props.note)
+    })
+    .onCancel(() => {
+      // noop
+    })
 }
 </script>
 

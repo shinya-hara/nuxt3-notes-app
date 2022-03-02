@@ -5,7 +5,7 @@
         <span class="text-caption">{{ note.formattedUpdatedAt }}</span>
       </div>
       <q-space />
-      <q-btn dense flat icon="delete" color="red-5" @click="confirm">
+      <q-btn dense flat icon="delete" color="negative" @click="confirm">
         <q-tooltip>Delete</q-tooltip>
       </q-btn>
     </q-bar>
@@ -13,17 +13,10 @@
     <q-card-section>
       <div v-if="preview" class="preview" @click="toggleMode">
         <div v-if="md" v-html="md"></div>
-        <div v-else class="text-blue-grey text-italic">Click here to edit note.</div>
+        <div v-else class="text-blue-grey text-italic">Click here to edit the note.</div>
       </div>
       <div v-else class="editor">
-        <q-input
-          v-model="editContent"
-          v-click-outside="updateContent"
-          color="purple"
-          filled
-          autogrow
-          autofocus
-        />
+        <q-input v-model="editContent" v-click-outside="updateContent" filled autogrow autofocus />
       </div>
     </q-card-section>
   </q-card>
@@ -68,7 +61,6 @@ const confirm = () => {
     cancel: true,
     persistent: true,
     focus: 'cancel',
-    color: 'purple',
   })
     .onOk(() => {
       emit('delete', props.note)

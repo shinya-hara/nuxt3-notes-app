@@ -13,13 +13,13 @@
       <q-banner class="bg-grey-3">
         There are no notes. Let's add the first note!
         <template #action>
-          <q-btn color="indigo" @click="addNew">Add new note</q-btn>
+          <q-btn color="secondary" @click="addNew">Add new note</q-btn>
         </template>
       </q-banner>
     </div>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="indigo" @click="addNew">
+      <q-btn fab icon="add" color="secondary" @click="addNew">
         <q-tooltip>Add new note</q-tooltip>
       </q-btn>
     </q-page-sticky>
@@ -32,7 +32,13 @@ import NoteCard from '@/components/NoteCard.vue'
 import { Note } from '@/domains/note'
 
 const notes: Ref<Note[]> = ref([])
-notes.value.push(new Note(1, 'this is first note content', new Date().toISOString()))
+notes.value.push(
+  new Note(
+    1,
+    '### Hello!\n\nThis is a note app.\n\nSupports **Markdown** formatting.\n\nYou can do...\n- Create\n- Read\n- Update\n- Delete\n\n*Click to edit the note.*',
+    new Date().toISOString(),
+  ),
+)
 
 const updateContent = (id: Note['id'], content: Note['content']) => {
   const targetId = notes.value.findIndex((note) => note.id === id)

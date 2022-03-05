@@ -5,7 +5,7 @@
         v-for="note in notes"
         :key="note.id"
         :note="note"
-        @update="updateContent(note.id, $event)"
+        @update="updateNote(note.id, $event)"
         @delete="deleteNote"
       />
     </div>
@@ -13,13 +13,13 @@
       <q-banner class="bg-grey-3">
         There are no notes. Let's add the first note!
         <template #action>
-          <q-btn color="secondary" @click="addNew">Add new note</q-btn>
+          <q-btn color="secondary" @click="addNote">Add new note</q-btn>
         </template>
       </q-banner>
     </div>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="secondary" @click="addNew">
+      <q-btn fab icon="add" color="secondary" @click="addNote">
         <q-tooltip>Add new note</q-tooltip>
       </q-btn>
     </q-page-sticky>
@@ -27,46 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from 'vue'
 import NoteCard from '@/components/NoteCard.vue'
-import { Note } from '@/domains/note'
-import { NoteRepository } from '@/repositories/noteRepository'
+import { NoteRepositoryImpl } from '@/repositories/noteRepositoryImpl'
+import { useNoteUseCase } from '@/useCases/noteUseCase'
 
-const notes: Ref<Note[]> = ref([])
-const noteRepository = new NoteRepository()
-notes.value = noteRepository.getAll()
-
-if (!notes.value.length)
-  notes.value.push(
-    new Note(
-      1,
-      '### Hello!\n\nThis is a note app.\n\nSupports **Markdown** formatting.\n\nYou can do...\n- Create\n- Read\n- Update\n- Delete\n\n*Click to edit the note.*',
-      new Date().toISOString(),
-    ),
-  )
-
-const updateContent = (id: Note['id'], content: Note['content']) => {
-  const targetId = notes.value.findIndex((note) => note.id === id)
-  const newNote = new Note(id, content)
-  notes.value.splice(targetId, 1, newNote)
-}
-
-const addNew = () => {
-  notes.value.unshift(new Note((notes.value[0]?.id || 0) + 1, ''))
-}
-
-const deleteNote = (note: Note) => {
-  const index = notes.value.findIndex((_note) => _note.id === note.id)
-  notes.value.splice(index, 1)
-}
-
-watch(
-  notes,
-  (notes) => {
-    noteRepository.save(notes)
-  },
-  { deep: true },
-)
+const { notes, updateNote, addNote, deleteNote } = useNoteUseCase(new NoteRepositoryImpl())
 </script>
 
 <style lang="scss" scoped>

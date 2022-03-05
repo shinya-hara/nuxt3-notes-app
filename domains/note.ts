@@ -22,13 +22,7 @@ export class Note {
    * @returns {string} YYYY-MM-DD HH:mm
    */
   public get formattedUpdatedAt(): string {
-    const d = new Date(this.updatedAt)
-    const year = d.getFullYear()
-    const month = zeroPadding(d.getMonth() + 1)
-    const day = zeroPadding(d.getDate())
-    const hour = zeroPadding(d.getHours())
-    const minute = zeroPadding(d.getMinutes())
-    return `${year}-${month}-${day} ${hour}:${minute}`
+    return new Date(this.updatedAt).toLocaleString()
   }
 
   public toJSON() {
@@ -38,10 +32,6 @@ export class Note {
       updatedAt: this.updatedAt,
     }
   }
-}
-
-function zeroPadding(base: string | number, length = 2) {
-  return String(base).padStart(length, '0')
 }
 
 export interface NoteJson {

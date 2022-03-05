@@ -18,9 +18,13 @@ export const useNoteUseCase = (repository: NoteRepository) => {
     )
 
   const updateNote = (id: Note['id'], content: Note['content']) => {
-    const targetId = notes.value.findIndex((note) => note.id === id)
+    const targetIndex = notes.value.findIndex((note) => note.id === id)
+
+    // 変更がない場合は更新しない
+    if (notes.value[targetIndex].content === content) return
+
     const newNote = new Note(id, content)
-    notes.value.splice(targetId, 1, newNote)
+    notes.value.splice(targetIndex, 1, newNote)
   }
 
   const addNote = () => {

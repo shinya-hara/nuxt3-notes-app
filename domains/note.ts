@@ -30,8 +30,22 @@ export class Note {
     const minute = zeroPadding(d.getMinutes())
     return `${year}-${month}-${day} ${hour}:${minute}`
   }
+
+  public toJSON() {
+    return {
+      id: this.id,
+      content: this.content,
+      updatedAt: this.updatedAt,
+    }
+  }
 }
 
 function zeroPadding(base: string | number, length = 2) {
   return String(base).padStart(length, '0')
+}
+
+export interface NoteJson {
+  id: Note['id']
+  content: Note['content']
+  updatedAt: Note['updatedAt']
 }

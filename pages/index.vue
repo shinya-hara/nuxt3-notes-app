@@ -30,15 +30,20 @@
 import { Ref } from 'vue'
 import NoteCard from '@/components/NoteCard.vue'
 import { Note } from '@/domains/note'
+import { NoteRepository } from '@/repositories/noteRepository'
 
 const notes: Ref<Note[]> = ref([])
-notes.value.push(
-  new Note(
-    1,
-    '### Hello!\n\nThis is a note app.\n\nSupports **Markdown** formatting.\n\nYou can do...\n- Create\n- Read\n- Update\n- Delete\n\n*Click to edit the note.*',
-    new Date().toISOString(),
-  ),
-)
+const noteRepository = new NoteRepository()
+notes.value = noteRepository.getAll()
+
+if (!notes.value.length)
+  notes.value.push(
+    new Note(
+      1,
+      '### Hello!\n\nThis is a note app.\n\nSupports **Markdown** formatting.\n\nYou can do...\n- Create\n- Read\n- Update\n- Delete\n\n*Click to edit the note.*',
+      new Date().toISOString(),
+    ),
+  )
 
 const updateContent = (id: Note['id'], content: Note['content']) => {
   const targetId = notes.value.findIndex((note) => note.id === id)
@@ -54,6 +59,14 @@ const deleteNote = (note: Note) => {
   const index = notes.value.findIndex((_note) => _note.id === note.id)
   notes.value.splice(index, 1)
 }
+
+watch(
+  notes,
+  (notes) => {
+    noteRepository.save(notes)
+  },
+  { deep: true },
+)
 </script>
 
 <style lang="scss" scoped>

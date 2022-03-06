@@ -8,6 +8,16 @@
           </q-avatar>
           Nuxt3 Notes App
         </q-toolbar-title>
+        <q-btn
+          href="https://github.com/shinya-hara/nuxt3-notes-app"
+          target="_blank"
+          flat
+          round
+          dense
+          icon="mdi-github"
+        >
+          <q-tooltip>Visit GitHub</q-tooltip>
+        </q-btn>
       </q-toolbar>
     </q-header>
 

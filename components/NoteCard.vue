@@ -5,7 +5,7 @@
         <span class="text-caption">{{ note.formattedUpdatedAt }}</span>
       </div>
       <q-space />
-      <q-btn dense flat icon="delete" color="negative" @click="confirm">
+      <q-btn dense flat round icon="delete" color="negative" @click="confirm">
         <q-tooltip>Delete</q-tooltip>
       </q-btn>
     </q-bar>
